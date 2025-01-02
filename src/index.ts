@@ -19,7 +19,7 @@ export interface TailscaleLambdaProxyProps {
   /**
    * The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key.
    */
-  readonly tsSecretApiKey: secretsmanager.Secret;
+  readonly tsSecretApiKey: secretsmanager.ISecret;
 
   /**
    * The "Machine" name as shown in the Tailscale admin console that identifies the Lambda function.

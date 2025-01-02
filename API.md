@@ -180,7 +180,7 @@ const tailscaleLambdaProxyProps: TailscaleLambdaProxyProps = { ... }
 | --- | --- | --- |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options">options</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a></code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsHostname">tsHostname</a></code> | <code>string</code> | The "Machine" name as shown in the Tailscale admin console that identifies the Lambda function. |
-| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsSecretApiKey">tsSecretApiKey</a></code> | <code>aws-cdk-lib.aws_secretsmanager.Secret</code> | The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key. |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsSecretApiKey">tsSecretApiKey</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key. |
 
 ---
 
@@ -209,10 +209,10 @@ The "Machine" name as shown in the Tailscale admin console that identifies the L
 ##### `tsSecretApiKey`<sup>Required</sup> <a name="tsSecretApiKey" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsSecretApiKey"></a>
 
 ```typescript
-public readonly tsSecretApiKey: Secret;
+public readonly tsSecretApiKey: ISecret;
 ```
 
-- *Type:* aws-cdk-lib.aws_secretsmanager.Secret
+- *Type:* aws-cdk-lib.aws_secretsmanager.ISecret
 
 The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key.
 
