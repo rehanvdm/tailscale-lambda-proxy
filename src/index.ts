@@ -1,3 +1,4 @@
+import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { FunctionUrl } from 'aws-cdk-lib/aws-lambda';
@@ -44,7 +45,8 @@ export class TailscaleLambdaProxy extends Construct {
     this.lambda = new NodejsFunction(this, 'tailscale-proxy-lambda', {
       ...props.options?.lambda,
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: 'src/lambda/tailscale-proxy/index.ts',
+      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda/tailscale-proxy')),
+      handler: 'index.handler',
       layers: [this.extension.layer],
       environment: {
         TS_SECRET_API_KEY: props.tsSecretApiKey.secretArn,
