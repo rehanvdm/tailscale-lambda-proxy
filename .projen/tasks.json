@@ -42,6 +42,33 @@
       ],
       "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
     },
+    "bundle": {
+      "name": "bundle",
+      "description": "Prepare assets",
+      "steps": [
+        {
+          "spawn": "bundle:lambda/tailscale-proxy"
+        }
+      ]
+    },
+    "bundle:lambda/tailscale-proxy": {
+      "name": "bundle:lambda/tailscale-proxy",
+      "description": "Create a JavaScript bundle from ./src/lambda/tailscale-proxy/",
+      "steps": [
+        {
+          "exec": "esbuild --bundle ./src/lambda/tailscale-proxy/ --target=\"node20\" --platform=\"node\" --outfile=\"assets/lambda/tailscale-proxy/index.js\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:lambda/tailscale-proxy:watch": {
+      "name": "bundle:lambda/tailscale-proxy:watch",
+      "description": "Continuously update the JavaScript bundle from ./src/lambda/tailscale-proxy/",
+      "steps": [
+        {
+          "exec": "esbuild --bundle ./src/lambda/tailscale-proxy/ --target=\"node20\" --platform=\"node\" --outfile=\"assets/lambda/tailscale-proxy/index.js\" --sourcemap --watch"
+        }
+      ]
+    },
     "clobber": {
       "name": "clobber",
       "description": "hard resets to HEAD of origin and cleans the local repo",
@@ -173,6 +200,9 @@
       "steps": [
         {
           "spawn": "package:js"
+        },
+        {
+          "spawn": "package:python"
         }
       ]
     },
@@ -182,6 +212,15 @@
       "steps": [
         {
           "exec": "jsii-pacmak -v --target js"
+        }
+      ]
+    },
+    "package:python": {
+      "name": "package:python",
+      "description": "Create python language bindings",
+      "steps": [
+        {
+          "exec": "jsii-pacmak -v --target python"
         }
       ]
     },
@@ -200,7 +239,12 @@
     },
     "pre-compile": {
       "name": "pre-compile",
-      "description": "Prepare the project for compilation"
+      "description": "Prepare the project for compilation",
+      "steps": [
+        {
+          "spawn": "bundle"
+        }
+      ]
     },
     "release": {
       "name": "release",
@@ -273,13 +317,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-pacmak,projen,ts-jest,ts-node,typescript"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,projen,ts-jest,ts-node,typescript,@aws-lambda-powertools/metrics,@types/aws-lambda,socks-proxy-agent,tailscale-lambda-extension"
         },
         {
           "exec": "npm install"
         },
         {
-          "exec": "npm update @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest ts-node typescript aws-cdk-lib constructs"
+          "exec": "npm update @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version esbuild eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest ts-node typescript @aws-lambda-powertools/metrics @types/aws-lambda socks-proxy-agent aws-cdk-lib constructs tailscale-lambda-extension"
         },
         {
           "exec": "npx projen"

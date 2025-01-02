@@ -2,11 +2,14 @@
   "name": "tailscale-lambda-proxy",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rehan.vdm4/tailscale-lambda-proxy.git"
+    "url": "https://github.com/rehanvdm/tailscale-lambda-proxy.git"
   },
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
+    "bundle": "npx projen bundle",
+    "bundle:lambda/tailscale-proxy": "npx projen bundle:lambda/tailscale-proxy",
+    "bundle:lambda/tailscale-proxy:watch": "npx projen bundle:lambda/tailscale-proxy:watch",
     "clobber": "npx projen clobber",
     "compat": "npx projen compat",
     "compile": "npx projen compile",
@@ -17,6 +20,7 @@
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
+    "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
@@ -26,11 +30,12 @@
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
-    "projen": "npx projen"
+    "projen": "npx projen",
+    "prepare": "if [ \"$CI\" = \"true\" ]; then echo \"CI detected, not running husky\"; else husky; fi"
   },
   "author": {
     "name": "rehanvdm",
-    "email": "rehan.vdm4@gmail.com",
+    "email": "rehan.vdm+github-tailscale-lambda-proxy@gmail.com",
     "organization": false
   },
   "devDependencies": {
@@ -39,12 +44,14 @@
     "@types/node": "^22.10.3",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "aws-cdk-lib": "2.1.0",
+    "aws-cdk-lib": "2.150.0",
     "commit-and-tag-version": "^12",
     "constructs": "10.0.5",
+    "esbuild": "^0.24.2",
     "eslint": "^9",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import": "^2.31.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-junit": "^15",
     "jsii": "~5.7.0",
@@ -58,12 +65,28 @@
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.1.0",
-    "constructs": "^10.0.5"
+    "aws-cdk-lib": "^2.150.0",
+    "constructs": "^10.0.5",
+    "tailscale-lambda-extension": "^0.0.0"
   },
+  "dependencies": {
+    "@aws-lambda-powertools/metrics": "^2.12.0",
+    "@types/aws-lambda": "^8.10.146",
+    "socks-proxy-agent": "^8.0.5",
+    "tailscale-lambda-extension": "^0.0.0"
+  },
+  "bundledDependencies": [
+    "@aws-lambda-powertools/metrics",
+    "@types/aws-lambda",
+    "socks-proxy-agent"
+  ],
   "keywords": [
     "cdk"
   ],
+  "engines": {
+    "node": "~20.*",
+    "npm": "~10.*"
+  },
   "main": "lib/index.js",
   "license": "Apache-2.0",
   "publishConfig": {
@@ -119,7 +142,12 @@
   "stability": "stable",
   "jsii": {
     "outdir": "dist",
-    "targets": {},
+    "targets": {
+      "python": {
+        "distName": "tailscale_lambda_proxy",
+        "module": "tailscale_lambda_proxy"
+      }
+    },
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"
