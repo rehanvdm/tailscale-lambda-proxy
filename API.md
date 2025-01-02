@@ -136,34 +136,6 @@ public readonly lambdaFunctionUrl: FunctionUrl;
 
 ## Structs <a name="Structs" id="Structs"></a>
 
-### LambdaOptions <a name="LambdaOptions" id="tailscale-lambda-proxy.LambdaOptions"></a>
-
-#### Initializer <a name="Initializer" id="tailscale-lambda-proxy.LambdaOptions.Initializer"></a>
-
-```typescript
-import { LambdaOptions } from 'tailscale-lambda-proxy'
-
-const lambdaOptions: LambdaOptions = { ... }
-```
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#tailscale-lambda-proxy.LambdaOptions.property.functionName">functionName</a></code> | <code>string</code> | *No description.* |
-
----
-
-##### `functionName`<sup>Optional</sup> <a name="functionName" id="tailscale-lambda-proxy.LambdaOptions.property.functionName"></a>
-
-```typescript
-public readonly functionName: string;
-```
-
-- *Type:* string
-
----
-
 ### TailscaleLambdaProxyProps <a name="TailscaleLambdaProxyProps" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps"></a>
 
 #### Initializer <a name="Initializer" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.Initializer"></a>
@@ -178,19 +150,9 @@ const tailscaleLambdaProxyProps: TailscaleLambdaProxyProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options">options</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a></code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsHostname">tsHostname</a></code> | <code>string</code> | The "Machine" name as shown in the Tailscale admin console that identifies the Lambda function. |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsSecretApiKey">tsSecretApiKey</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key. |
-
----
-
-##### `options`<sup>Required</sup> <a name="options" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options"></a>
-
-```typescript
-public readonly options: TailscaleLambdaProxyPropsOptions;
-```
-
-- *Type:* <a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a>
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options">options</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a></code> | *No description.* |
 
 ---
 
@@ -218,6 +180,44 @@ The name of the AWS Secrets Manager secret that contains the pure text Tailscale
 
 ---
 
+##### `options`<sup>Optional</sup> <a name="options" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options"></a>
+
+```typescript
+public readonly options: TailscaleLambdaProxyPropsOptions;
+```
+
+- *Type:* <a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a>
+
+---
+
+### TailscaleLambdaProxyPropsLambdaOption <a name="TailscaleLambdaProxyPropsLambdaOption" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption"></a>
+
+#### Initializer <a name="Initializer" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption.Initializer"></a>
+
+```typescript
+import { TailscaleLambdaProxyPropsLambdaOption } from 'tailscale-lambda-proxy'
+
+const tailscaleLambdaProxyPropsLambdaOption: TailscaleLambdaProxyPropsLambdaOption = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption.property.functionName">functionName</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+---
+
 ### TailscaleLambdaProxyPropsOptions <a name="TailscaleLambdaProxyPropsOptions" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions"></a>
 
 #### Initializer <a name="Initializer" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.Initializer"></a>
@@ -232,28 +232,28 @@ const tailscaleLambdaProxyPropsOptions: TailscaleLambdaProxyPropsOptions = { ...
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.extension">extension</a></code> | <code>tailscale-lambda-extension.TailscaleLambdaExtensionProps</code> | *No description.* |
-| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.lambda">lambda</a></code> | <code><a href="#tailscale-lambda-proxy.LambdaOptions">LambdaOptions</a></code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.extension">extension</a></code> | <code>aws-cdk-lib.aws_lambda.LayerVersionOptions</code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.lambda">lambda</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption">TailscaleLambdaProxyPropsLambdaOption</a></code> | *No description.* |
 
 ---
 
-##### `extension`<sup>Required</sup> <a name="extension" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.extension"></a>
+##### `extension`<sup>Optional</sup> <a name="extension" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.extension"></a>
 
 ```typescript
-public readonly extension: TailscaleLambdaExtensionProps;
+public readonly extension: LayerVersionOptions;
 ```
 
-- *Type:* tailscale-lambda-extension.TailscaleLambdaExtensionProps
+- *Type:* aws-cdk-lib.aws_lambda.LayerVersionOptions
 
 ---
 
-##### `lambda`<sup>Required</sup> <a name="lambda" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.lambda"></a>
+##### `lambda`<sup>Optional</sup> <a name="lambda" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.lambda"></a>
 
 ```typescript
-public readonly lambda: LambdaOptions;
+public readonly lambda: TailscaleLambdaProxyPropsLambdaOption;
 ```
 
-- *Type:* <a href="#tailscale-lambda-proxy.LambdaOptions">LambdaOptions</a>
+- *Type:* <a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption">TailscaleLambdaProxyPropsLambdaOption</a>
 
 ---
 

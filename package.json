@@ -67,13 +67,13 @@
   "peerDependencies": {
     "aws-cdk-lib": "^2.150.0",
     "constructs": "^10.0.5",
-    "tailscale-lambda-extension": "^0.0.0"
+    "tailscale-lambda-extension": "^0.0.1"
   },
   "dependencies": {
     "@aws-lambda-powertools/metrics": "^2.12.0",
     "@types/aws-lambda": "^8.10.146",
     "socks-proxy-agent": "^8.0.5",
-    "tailscale-lambda-extension": "^0.0.0"
+    "tailscale-lambda-extension": "^0.0.1"
   },
   "bundledDependencies": [
     "@aws-lambda-powertools/metrics",

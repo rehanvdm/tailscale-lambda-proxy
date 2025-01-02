@@ -4,15 +4,15 @@ import { FunctionUrl } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
-import { TailscaleLambdaExtension, TailscaleLambdaExtensionProps } from 'tailscale-lambda-extension';
+import { TailscaleLambdaExtension } from 'tailscale-lambda-extension';
 
-export interface LambdaOptions {
+export interface TailscaleLambdaProxyPropsLambdaOption {
   readonly functionName?: string;
 }
 
 export interface TailscaleLambdaProxyPropsOptions {
-  readonly extension: TailscaleLambdaExtensionProps; //TODO make optional
-  readonly lambda: LambdaOptions;
+  readonly extension?: lambda.LayerVersionOptions;
+  readonly lambda?: TailscaleLambdaProxyPropsLambdaOption;
 }
 
 export interface TailscaleLambdaProxyProps {
@@ -26,7 +26,7 @@ export interface TailscaleLambdaProxyProps {
    */
   readonly tsHostname: string;
 
-  readonly options: TailscaleLambdaProxyPropsOptions;
+  readonly options?: TailscaleLambdaProxyPropsOptions;
 }
 
 export class TailscaleLambdaProxy extends Construct {
@@ -37,10 +37,12 @@ export class TailscaleLambdaProxy extends Construct {
   constructor(scope: Construct, id: string, props: TailscaleLambdaProxyProps) {
     super(scope, id);
 
-    this.extension = new TailscaleLambdaExtension(scope, 'tailscale-extension', props.options.extension);
+    this.extension = new TailscaleLambdaExtension(scope, 'tailscale-proxy-extension', {
+      options: props.options?.extension,
+    });
 
     this.lambda = new NodejsFunction(this, 'tailscale-proxy-lambda', {
-      ...props.options.lambda,
+      ...props.options?.lambda,
       runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'src/lambda/tailscale-proxy/index.ts',
       layers: [this.extension.layer],
