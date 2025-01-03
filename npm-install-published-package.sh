@@ -1,3 +1,3 @@
+##!/bin/bash
 npm uninstall tailscale-lambda-extension
-npm install tailscale-lambda-extension
-npm install tailscale-lambda-extension --peer
+npm run default
