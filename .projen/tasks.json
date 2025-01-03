@@ -230,6 +230,12 @@
       "steps": [
         {
           "spawn": "docgen"
+        },
+        {
+          "exec": "cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js"
+        },
+        {
+          "exec": "cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js.map"
         }
       ]
     },

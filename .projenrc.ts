@@ -59,5 +59,7 @@ project.bundler.addBundle('./src/lambda/tailscale-proxy/', {
   target: 'node20',
   sourcemap: true,
 });
+project.postCompileTask.exec('cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js');
+project.postCompileTask.exec('cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js.map');
 
 project.synth();

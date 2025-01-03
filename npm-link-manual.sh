@@ -2,7 +2,6 @@
 
 npm run default
 npm run compile
-cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js
 
 # For this proxy package to be used in the -caller project
 npm link
