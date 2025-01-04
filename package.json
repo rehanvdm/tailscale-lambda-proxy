@@ -41,7 +41,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.3",
+    "@types/node": "^22.10.5",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk-lib": "2.150.0",
@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@aws-lambda-powertools/metrics": "^2.12.0",
-    "@types/aws-lambda": "^8.10.146",
+    "@types/aws-lambda": "^8.10.147",
     "socks-proxy-agent": "^8.0.5",
     "tailscale-lambda-extension": "^0.0.7"
   },
