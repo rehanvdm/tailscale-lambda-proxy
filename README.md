@@ -3,6 +3,18 @@
 [![npm version](https://badge.fury.io/js/tailscale-lambda-proxy.svg)](https://badge.fury.io/js/tailscale-lambda-proxy) 
 [![PyPI version](https://badge.fury.io/py/tailscale-lambda-proxy.svg)](https://badge.fury.io/py/tailscale-lambda-proxy)
 
+- [Tailscale Lambda Proxy](#tailscale-lambda-proxy)
+  - [Why use a proxy?](#why-use-a-proxy)
+  - [Usage](#usage)
+    - [Installation](#installation)
+  - [Accessing your Tailscale Network through the Proxy](#accessing-your-tailscale-network-through-the-proxy)
+    - [Signing Requests](#signing-requests)
+    - [Including Target Headers](#including-target-headers)
+    - [Creating CloudWatch Tracking Metrics](#creating-cloudwatch-tracking-metrics)
+    - [Error Handling](#error-handling)
+    - [Code Examples](#code-examples)
+  - [Additional Information](#additional-information)
+
 A CDK construct that creates an AWS Lambda Function acting as a transparent proxy to your Tailscale network.
 
 Available as both a TypeScript NPM Package and a Python PyPi Package:
@@ -101,13 +113,13 @@ Key considerations when using the Proxy:
 1. All requests must be signed with the IAM Signature V4 algorithm.
 2. The target machine's IP address and port must be included in the headers when making requests to the Proxy.
 
-#### Signing Requests
+### Signing Requests
 
 The Proxy Lambda exposes a Function URL secured with IAM Authentication. The caller Lambda requires this URL and
 IAM permissions to make requests. These requests must be signed with the IAM Signature V4 algorithm. For TypeScript,
 use the [aws4](https://www.npmjs.com/package/aws4) package to sign requests.
 
-#### Including Target Headers
+### Including Target Headers
 
 When calling the Proxy, include the following headers to specify the target machine:
 - `ts-target-ip`: The IP address of the Tailscale-connected machine/device.
@@ -133,6 +145,7 @@ Example headers for a request:
 - `ts-metric-dimension-value`: `rehan-test-client`, identifying the specific client.
 
 This configuration generates CloudWatch metrics similar to the screenshot below:  
+
 ![tailscale-cloudwatch-metric.png](_imgs/tailscale-cloudwatch-metric.png)
 
 ### Error Handling
