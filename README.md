@@ -1,6 +1,6 @@
-# Tailscale Lambda Extension Proxy
+# Tailscale Lambda Proxy
 
-[![npm version](https://badge.fury.io/js/tailscale-lambda-proxy.svg)](https://badge.fury.io/js/tailscale-lambda-proxy)  
+[![npm version](https://badge.fury.io/js/tailscale-lambda-proxy.svg)](https://badge.fury.io/js/tailscale-lambda-proxy) 
 [![PyPI version](https://badge.fury.io/py/tailscale-lambda-proxy.svg)](https://badge.fury.io/py/tailscale-lambda-proxy)
 
 A CDK construct that creates an AWS Lambda Function acting as a transparent proxy to your Tailscale network.
