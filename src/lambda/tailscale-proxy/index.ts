@@ -1,4 +1,5 @@
 import * as http from 'http';
+import * as https from 'https';
 import { Metrics, MetricUnit } from '@aws-lambda-powertools/metrics';
 import {
   APIGatewayProxyEventV2, APIGatewayProxyResultV2,
@@ -7,6 +8,7 @@ import { SocksProxyAgent } from 'socks-proxy-agent';
 
 async function proxyHttpRequest(
   target: Pick<http.RequestOptions, 'hostname' | 'port' | 'agent'>,
+  isHttps: boolean | undefined,
   request: {
     path: string;
     method: string;
@@ -16,7 +18,10 @@ async function proxyHttpRequest(
 ): Promise<APIGatewayProxyResultV2> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
-    const apiRequest = http.request({
+    const httpLib = isHttps == undefined ?
+      (target.port == 443 ? https : http) :
+      (isHttps ? https : http);
+    const apiRequest = httpLib.request({
       ...target,
       path: request.path,
       method: request.method,
@@ -58,6 +63,7 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
   try {
     const socksProxyAgent = new SocksProxyAgent('socks://localhost:1055');
 
+    let isHttps = undefined; // Auto-detect, will be set for port 443
     if (!event.headers['ts-target-ip']) {
       return {
         statusCode: 400,
@@ -74,7 +80,9 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
         },
       };
     }
-
+    if (event.headers['ts-https']) {
+      isHttps = event.headers['ts-https'] === 'true';
+    }
     if (event.headers['ts-metric-service']) {
       metrics = new Metrics({ namespace: 'tailscale-service', serviceName: event.headers['ts-metric-service'] });
       if (event.headers['ts-metric-dimension-name'] && event.headers['ts-metric-dimension-value']) {
@@ -95,7 +103,8 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
       hostname: event.headers['ts-target-ip'],
       port: event.headers['ts-target-port'],
       agent: socksProxyAgent,
-    }, {
+    }, isHttps,
+    {
       path: event.requestContext.http.path,
       headers: targetHeaders,
       method: event.requestContext.http.method,

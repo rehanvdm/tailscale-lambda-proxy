@@ -205,6 +205,7 @@ const tailscaleLambdaProxyPropsLambdaOption: TailscaleLambdaProxyPropsLambdaOpti
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption.property.functionName">functionName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption.property.nodeTlsRejectUnauthorized">nodeTlsRejectUnauthorized</a></code> | <code>boolean</code> | *No description.* |
 
 ---
 
@@ -215,6 +216,16 @@ public readonly functionName: string;
 ```
 
 - *Type:* string
+
+---
+
+##### `nodeTlsRejectUnauthorized`<sup>Optional</sup> <a name="nodeTlsRejectUnauthorized" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption.property.nodeTlsRejectUnauthorized"></a>
+
+```typescript
+public readonly nodeTlsRejectUnauthorized: boolean;
+```
+
+- *Type:* boolean
 
 ---
 

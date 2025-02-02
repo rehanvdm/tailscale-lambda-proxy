@@ -78,6 +78,7 @@ export class MyStack extends cdk.Stack {
       // options: {
       //   extension: {
       //     layerVersionName: "tailscale-extension",
+      //     nodeTlsRejectUnauthorized: false, // Sets the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0'
       //   },
       //   lambda: {
       //     functionName: "tailscale-proxy",
@@ -124,6 +125,8 @@ use the [aws4](https://www.npmjs.com/package/aws4) package to sign requests.
 When calling the Proxy, include the following headers to specify the target machine:
 - `ts-target-ip`: The IP address of the Tailscale-connected machine/device.
 - `ts-target-port`: The port of the Tailscale-connected machine/device.
+- `ts-https`: OPTIONAL, if undefined, the default behaviour is to use https when the port is 443. If specified then it 
+  will override the default behaviour.
 
 These `ts-` headers are removed before the request is forwarded to the target machine.
 
