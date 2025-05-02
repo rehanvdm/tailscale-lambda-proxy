@@ -14,6 +14,7 @@
     - [Error Handling](#error-handling)
     - [Code Examples](#code-examples)
   - [Additional Information](#additional-information)
+  - [AWS SigV4 Headers](#aws-sigv4-headers)
 
 A CDK construct that creates an AWS Lambda Function acting as a transparent proxy to your Tailscale network.
 
@@ -127,8 +128,28 @@ When calling the Proxy, include the following headers to specify the target mach
 - `ts-target-port`: The port of the Tailscale-connected machine/device.
 - `ts-https`: OPTIONAL, if undefined, the default behaviour is to use https when the port is 443. If specified then it 
   will override the default behaviour.
+- See the remaining AWS SigV4 headers in the next section (special case for `Authorization`).
 
 These `ts-` headers are removed before the request is forwarded to the target machine.
+
+#### AWS SigV4 Headers
+
+The proxy automatically removes AWS SigV4 headers from the incoming request and replaces them with their `ts-` 
+prefixed counterparts when forwarding the request if they exist. This allows you to forward headers that
+are named the same as required by the AWS SigV4 signature request. 
+
+The following headers are handled:
+- `ts-authorization` → `Authorization`
+- `ts-x-amz-date` → `x-amz-date`
+- `ts-host` → `host`
+- `ts-x-amz-content-sha256` → `x-amz-content-sha256`
+
+This is useful when you need to include an `Authorization` header in the request to the target machine. If 
+you place the value directly in the `Authorization` header, it will be overwritten by the AWS SigV4 signature 
+that the caller generates. Instead, place your authorization value in the `ts-authorization` header. The 
+proxy will remove all `ts-` prefixed headers before forwarding the request and will correctly set the 
+`ts-authorization` value as the `Authorization` header in the forwarded request.
+
 
 ### Creating CloudWatch Tracking Metrics
 
