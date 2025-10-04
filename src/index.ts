@@ -29,6 +29,8 @@ export interface TailscaleLambdaProxyProps {
   readonly tsHostname: string;
 
   readonly options?: TailscaleLambdaProxyPropsOptions;
+
+  readonly debug?: boolean;
 }
 
 export class TailscaleLambdaProxy extends Construct {
@@ -52,6 +54,7 @@ export class TailscaleLambdaProxy extends Construct {
       environment: {
         TS_SECRET_API_KEY: props.tsSecretApiKey.secretArn,
         TS_HOSTNAME: props.tsHostname,
+        ...(props?.debug) ? { DEBUG: 'true' } : { },
         ...(props.options?.lambda?.nodeTlsRejectUnauthorized === false) ? { NODE_TLS_REJECT_UNAUTHORIZED: '0' } : { },
       },
       timeout: cdk.Duration.minutes(15),

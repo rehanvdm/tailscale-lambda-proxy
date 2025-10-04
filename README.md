@@ -84,7 +84,8 @@ export class MyStack extends cdk.Stack {
       //   lambda: {
       //     functionName: "tailscale-proxy",
       //   }
-      // }
+      // },
+      // debug: true, // Enable debug logging, show request + response, search for lines starting with "[tailscale-"
     });
 
     const caller = new NodejsFunction(this, "tailscale-caller", {

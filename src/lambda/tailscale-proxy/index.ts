@@ -11,7 +11,20 @@ const AWS_SPECIFIC_HEADERS = [
   'x-amz-content-sha256',
 ];
 
+export function logError(...args: any[]) {
+  console.error('[tailscale-proxy] ERROR', ...args);
+}
+export function logInfo(...args: any[]) {
+  console.log('[tailscale-proxy] INFO', ...args);
+}
+export function logDebug(...args: any[]) {
+  if (process.env.DEBUG) {
+    console.log('[tailscale-proxy] DEBUG', ...args);
+  }
+}
+
 export async function handler(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
+  logDebug('Event:', JSON.stringify(event, null, 2));
   let metrics: Metrics | undefined;
   try {
     let isHttps = undefined; // Auto-detect, will be set for port 443
@@ -65,6 +78,9 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
       targetHeaders['x-amz-content-sha256'] = event.headers['ts-x-amz-content-sha256'] as string;
     }
 
+    const body = event.body
+      ? (event.isBase64Encoded ? Buffer.from(event.body, 'base64').toString('utf-8') : event.body)
+      : undefined;
     const response = await proxyHttpRequest({
       hostname: event.headers['ts-target-ip'],
       port: event.headers['ts-target-port'],
@@ -73,10 +89,12 @@ export async function handler(event: APIGatewayProxyEventV2): Promise<APIGateway
       path: event.requestContext.http.path,
       headers: targetHeaders,
       method: event.requestContext.http.method,
-      body: event.body,
+      body: body,
     });
 
     metrics?.addMetric('success', MetricUnit.Count, 1);
+
+    logDebug('Response', JSON.stringify(response, null, 2));
     return response;
   } catch (_err) {
     metrics?.addMetric('error', MetricUnit.Count, 1);

@@ -4,7 +4,7 @@ import { ArrowParens, TrailingComma } from 'projen/lib/javascript';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'rehanvdm',
   authorAddress: 'rehan.vdm+github-tailscale-lambda-proxy@gmail.com',
-  cdkVersion: '2.150.0',
+  cdkVersion: '2.176.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.7.0',
   name: 'tailscale-lambda-proxy',
