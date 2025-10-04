@@ -152,6 +152,7 @@ const tailscaleLambdaProxyProps: TailscaleLambdaProxyProps = { ... }
 | --- | --- | --- |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsHostname">tsHostname</a></code> | <code>string</code> | The "Machine" name as shown in the Tailscale admin console that identifies the Lambda function. |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsSecretApiKey">tsSecretApiKey</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key. |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.debug">debug</a></code> | <code>boolean</code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options">options</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a></code> | *No description.* |
 
 ---
@@ -177,6 +178,16 @@ public readonly tsSecretApiKey: ISecret;
 - *Type:* aws-cdk-lib.aws_secretsmanager.ISecret
 
 The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key.
+
+---
+
+##### `debug`<sup>Optional</sup> <a name="debug" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.debug"></a>
+
+```typescript
+public readonly debug: boolean;
+```
+
+- *Type:* boolean
 
 ---
 
