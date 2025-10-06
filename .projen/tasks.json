@@ -48,6 +48,27 @@
       "steps": [
         {
           "spawn": "bundle:lambda/tailscale-proxy"
+        },
+        {
+          "spawn": "bundle:lambda/proxy-warmer"
+        }
+      ]
+    },
+    "bundle:lambda/proxy-warmer": {
+      "name": "bundle:lambda/proxy-warmer",
+      "description": "Create a JavaScript bundle from ./src/lambda/proxy-warmer/",
+      "steps": [
+        {
+          "exec": "esbuild --bundle ./src/lambda/proxy-warmer/ --target=\"node22\" --platform=\"node\" --outfile=\"assets/lambda/proxy-warmer/index.js\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:lambda/proxy-warmer:watch": {
+      "name": "bundle:lambda/proxy-warmer:watch",
+      "description": "Continuously update the JavaScript bundle from ./src/lambda/proxy-warmer/",
+      "steps": [
+        {
+          "exec": "esbuild --bundle ./src/lambda/proxy-warmer/ --target=\"node22\" --platform=\"node\" --outfile=\"assets/lambda/proxy-warmer/index.js\" --sourcemap --watch"
         }
       ]
     },
@@ -56,7 +77,7 @@
       "description": "Create a JavaScript bundle from ./src/lambda/tailscale-proxy/",
       "steps": [
         {
-          "exec": "esbuild --bundle ./src/lambda/tailscale-proxy/ --target=\"node20\" --platform=\"node\" --outfile=\"assets/lambda/tailscale-proxy/index.js\" --sourcemap"
+          "exec": "esbuild --bundle ./src/lambda/tailscale-proxy/ --target=\"node22\" --platform=\"node\" --outfile=\"assets/lambda/tailscale-proxy/index.js\" --sourcemap"
         }
       ]
     },
@@ -65,7 +86,7 @@
       "description": "Continuously update the JavaScript bundle from ./src/lambda/tailscale-proxy/",
       "steps": [
         {
-          "exec": "esbuild --bundle ./src/lambda/tailscale-proxy/ --target=\"node20\" --platform=\"node\" --outfile=\"assets/lambda/tailscale-proxy/index.js\" --sourcemap --watch"
+          "exec": "esbuild --bundle ./src/lambda/tailscale-proxy/ --target=\"node22\" --platform=\"node\" --outfile=\"assets/lambda/tailscale-proxy/index.js\" --sourcemap --watch"
         }
       ]
     },
@@ -236,6 +257,12 @@
         },
         {
           "exec": "cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js.map"
+        },
+        {
+          "exec": "cp assets/lambda/proxy-warmer/index.js lib/lambda/proxy-warmer/index.js"
+        },
+        {
+          "exec": "cp assets/lambda/proxy-warmer/index.js lib/lambda/proxy-warmer/index.js.map"
         }
       ]
     },
@@ -323,13 +350,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,projen,ts-jest,ts-node,typescript,@aws-lambda-powertools/metrics,@types/aws-lambda,socks-proxy-agent,tailscale-lambda-extension"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,projen,ts-jest,ts-node,typescript,@aws-lambda-powertools/metrics,@aws-sdk/client-lambda,@types/aws-lambda,socks-proxy-agent,tailscale-lambda-extension"
         },
         {
           "exec": "npm install"
         },
         {
-          "exec": "npm update @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version esbuild eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest ts-node typescript @aws-lambda-powertools/metrics @types/aws-lambda socks-proxy-agent aws-cdk-lib constructs tailscale-lambda-extension"
+          "exec": "npm update @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version esbuild eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest ts-node typescript @aws-lambda-powertools/metrics @aws-sdk/client-lambda @types/aws-lambda socks-proxy-agent aws-cdk-lib constructs tailscale-lambda-extension"
         },
         {
           "exec": "npx projen"

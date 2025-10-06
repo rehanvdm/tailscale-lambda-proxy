@@ -36,7 +36,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   peerDeps: ['tailscale-lambda-extension'],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: ['husky'], /* Build dependencies for this module. */
-  bundledDeps: ['@types/aws-lambda', '@aws-lambda-powertools/metrics', 'socks-proxy-agent'],
+  bundledDeps: ['@types/aws-lambda', '@aws-lambda-powertools/metrics', 'socks-proxy-agent', '@aws-sdk/client-lambda'],
   publishToPypi: {
     distName: 'tailscale_lambda_proxy',
     module: 'tailscale_lambda_proxy',
@@ -56,10 +56,18 @@ project.gitignore.addPatterns('*.DS_Store');
 
 project.bundler.addBundle('./src/lambda/tailscale-proxy/', {
   platform: 'node',
-  target: 'node20',
+  target: 'node22',
   sourcemap: true,
 });
 project.postCompileTask.exec('cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js');
 project.postCompileTask.exec('cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js.map');
+
+project.bundler.addBundle('./src/lambda/proxy-warmer/', {
+  platform: 'node',
+  target: 'node22',
+  sourcemap: true,
+});
+project.postCompileTask.exec('cp assets/lambda/proxy-warmer/index.js lib/lambda/proxy-warmer/index.js');
+project.postCompileTask.exec('cp assets/lambda/proxy-warmer/index.js lib/lambda/proxy-warmer/index.js.map');
 
 project.synth();
