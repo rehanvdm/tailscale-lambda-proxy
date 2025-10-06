@@ -102,6 +102,10 @@
       "type": "bundled"
     },
     {
+      "name": "@aws-sdk/client-lambda",
+      "type": "bundled"
+    },
+    {
       "name": "@types/aws-lambda",
       "type": "bundled"
     },

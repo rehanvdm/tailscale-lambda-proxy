@@ -88,6 +88,8 @@ Any object.
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxy.property.extension">extension</a></code> | <code>tailscale-lambda-extension.TailscaleLambdaExtension</code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxy.property.lambda">lambda</a></code> | <code>aws-cdk-lib.aws_lambda_nodejs.NodejsFunction</code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxy.property.lambdaFunctionUrl">lambdaFunctionUrl</a></code> | <code>aws-cdk-lib.aws_lambda.FunctionUrl</code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxy.property.warmer">warmer</a></code> | <code>aws-cdk-lib.aws_lambda_nodejs.NodejsFunction</code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxy.property.warmerRule">warmerRule</a></code> | <code>aws-cdk-lib.aws_events.Rule</code> | *No description.* |
 
 ---
 
@@ -130,6 +132,26 @@ public readonly lambdaFunctionUrl: FunctionUrl;
 ```
 
 - *Type:* aws-cdk-lib.aws_lambda.FunctionUrl
+
+---
+
+##### `warmer`<sup>Optional</sup> <a name="warmer" id="tailscale-lambda-proxy.TailscaleLambdaProxy.property.warmer"></a>
+
+```typescript
+public readonly warmer: NodejsFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda_nodejs.NodejsFunction
+
+---
+
+##### `warmerRule`<sup>Optional</sup> <a name="warmerRule" id="tailscale-lambda-proxy.TailscaleLambdaProxy.property.warmerRule"></a>
+
+```typescript
+public readonly warmerRule: Rule;
+```
+
+- *Type:* aws-cdk-lib.aws_events.Rule
 
 ---
 
@@ -256,6 +278,7 @@ const tailscaleLambdaProxyPropsOptions: TailscaleLambdaProxyPropsOptions = { ...
 | --- | --- | --- |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.extension">extension</a></code> | <code>aws-cdk-lib.aws_lambda.LayerVersionOptions</code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.lambda">lambda</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption">TailscaleLambdaProxyPropsLambdaOption</a></code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.warmer">warmer</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption">TailscaleLambdaProxyPropsWarmerOption</a></code> | If provided, a separate Lambda function will be created to periodically invoke the Tailscale proxy Lambda function to keep it warm. |
 
 ---
 
@@ -276,6 +299,57 @@ public readonly lambda: TailscaleLambdaProxyPropsLambdaOption;
 ```
 
 - *Type:* <a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsLambdaOption">TailscaleLambdaProxyPropsLambdaOption</a>
+
+---
+
+##### `warmer`<sup>Optional</sup> <a name="warmer" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions.property.warmer"></a>
+
+```typescript
+public readonly warmer: TailscaleLambdaProxyPropsWarmerOption;
+```
+
+- *Type:* <a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption">TailscaleLambdaProxyPropsWarmerOption</a>
+
+If provided, a separate Lambda function will be created to periodically invoke the Tailscale proxy Lambda function to keep it warm.
+
+---
+
+### TailscaleLambdaProxyPropsWarmerOption <a name="TailscaleLambdaProxyPropsWarmerOption" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption"></a>
+
+#### Initializer <a name="Initializer" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption.Initializer"></a>
+
+```typescript
+import { TailscaleLambdaProxyPropsWarmerOption } from 'tailscale-lambda-proxy'
+
+const tailscaleLambdaProxyPropsWarmerOption: TailscaleLambdaProxyPropsWarmerOption = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption.property.concurrentInvocations">concurrentInvocations</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption.property.functionName">functionName</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `concurrentInvocations`<sup>Optional</sup> <a name="concurrentInvocations" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption.property.concurrentInvocations"></a>
+
+```typescript
+public readonly concurrentInvocations: number;
+```
+
+- *Type:* number
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="tailscale-lambda-proxy.TailscaleLambdaProxyPropsWarmerOption.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
 
 ---
 

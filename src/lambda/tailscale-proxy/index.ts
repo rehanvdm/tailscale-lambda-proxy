@@ -3,6 +3,7 @@ import {
   APIGatewayProxyEventV2, APIGatewayProxyResultV2,
 } from 'aws-lambda';
 import { proxyHttpRequest } from './proxy-http-request';
+import { WarmerPayload } from '../proxy-warmer';
 
 const AWS_SPECIFIC_HEADERS = [
   'authorization',
@@ -23,7 +24,13 @@ export function logDebug(...args: any[]) {
   }
 }
 
-export async function handler(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
+export async function handler(event: APIGatewayProxyEventV2 | WarmerPayload): Promise<APIGatewayProxyResultV2 | any> {
+
+  if ('warmer' in event) {
+    logDebug(`Warmer invocation detected (index: ${event.warmerIndex}, timestamp: ${event.warmerTimestamp})`);
+    return { success: true };
+  }
+
   logDebug('Event:', JSON.stringify(event, null, 2));
   let metrics: Metrics | undefined;
   try {

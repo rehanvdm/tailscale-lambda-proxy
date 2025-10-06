@@ -86,6 +86,10 @@ export class MyStack extends cdk.Stack {
       //   }
       // },
       // debug: true, // Enable debug logging, show request + response, search for lines starting with "[tailscale-"
+      // warmer: { // Optional, enables a "warmer" Lambda to keep proxy connections open/warm (cold start is about 5-10 seconds)
+      //   functionName: name("tailscale-proxy-warmer"),
+      //   concurrentInvocations: 2,
+      // }
     });
 
     const caller = new NodejsFunction(this, "tailscale-caller", {
@@ -181,6 +185,16 @@ makes it difficult to determine whether an error originated from the Proxy Lambd
 A Proxy Lambda error can be identified by the following headers in the response:
 - `ts-error-name`: The error name.
 - `ts-error-message`: The error message.
+
+### Reducing Cold starts
+
+Cold starts occur when your function first has to connect to the Tailscale network, which can take between 5-10 seconds
+as mentioned in the [Tailscale Lambda Extension](https://github.com/rehanvdm/tailscale-lambda-extension?tab=readme-ov-file#limitations)
+docs. Subsequent requests are much faster as the connection is reused.
+
+Cold starts can be mitigated by configuring a "warmer" Lambda function that periodically invokes the Proxy Lambda. The 
+number of warm connections is determined by the `concurrentInvocations` property. This setup helps maintain a pool of 
+warm connections to the Tailscale network, reducing latency for subsequent requests.
 
 ### Code Examples
 
