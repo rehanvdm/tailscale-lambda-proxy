@@ -62,7 +62,7 @@ export class TailscaleLambdaProxy extends Construct {
 
     this.lambda = new NodejsFunction(this, 'tailscale-proxy-lambda', {
       ...props.options?.lambda,
-      runtime: lambda.Runtime.NODEJS_22_X,
+      runtime: lambda.Runtime.NODEJS_24_X,
       code: lambda.Code.fromAsset(path.join(__dirname, 'lambda/tailscale-proxy')),
       handler: 'index.handler',
       layers: [this.extension.layer],
@@ -86,7 +86,7 @@ export class TailscaleLambdaProxy extends Construct {
 
       this.warmer = new NodejsFunction(this, 'proxy-warmer-lambda', {
         functionName: props.options.warmer.functionName,
-        runtime: lambda.Runtime.NODEJS_22_X,
+        runtime: lambda.Runtime.NODEJS_24_X,
         code: lambda.Code.fromAsset(path.join(__dirname, 'lambda/proxy-warmer')),
         handler: 'index.handler',
         environment: {
