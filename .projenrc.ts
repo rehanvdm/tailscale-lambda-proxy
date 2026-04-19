@@ -4,9 +4,9 @@ import { ArrowParens, TrailingComma } from 'projen/lib/javascript';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'rehanvdm',
   authorAddress: 'rehan.vdm+github-tailscale-lambda-proxy@gmail.com',
-  cdkVersion: '2.176.0',
+  cdkVersion: '2.225.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.7.0',
+  jsiiVersion: '5.9.36',
   name: 'tailscale-lambda-proxy',
   packageManager: javascript.NodePackageManager.NPM,
   projenrcTs: true,
@@ -31,20 +31,21 @@ const project = new awscdk.AwsCdkConstructLibrary({
       },
     },
   },
-  workflowNodeVersion: '20',
+  workflowNodeVersion: '24',
   deps: ['tailscale-lambda-extension'],
   peerDeps: ['tailscale-lambda-extension'],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: ['husky'], /* Build dependencies for this module. */
   bundledDeps: ['@types/aws-lambda', '@aws-lambda-powertools/metrics', 'socks-proxy-agent', '@aws-sdk/client-lambda'],
+  npmTrustedPublishing: true,
   publishToPypi: {
     distName: 'tailscale_lambda_proxy',
     module: 'tailscale_lambda_proxy',
   },
 });
 
-project.package.addEngine('node', '~20.*');
-project.package.addEngine('npm', '~10.*');
+project.package.addEngine('node', '~24.*');
+project.package.addEngine('npm', '~11.*');
 
 // Only run husky if not in CI, in the post install script
 project.package.setScript('prepare', 'if [ "$CI" = "true" ]; then echo "CI detected, not running husky"; else husky; fi');
@@ -56,7 +57,7 @@ project.gitignore.addPatterns('*.DS_Store');
 
 project.bundler.addBundle('./src/lambda/tailscale-proxy/', {
   platform: 'node',
-  target: 'node22',
+  target: 'node24',
   sourcemap: true,
 });
 project.postCompileTask.exec('cp assets/lambda/tailscale-proxy/index.js lib/lambda/tailscale-proxy/index.js');
@@ -64,7 +65,7 @@ project.postCompileTask.exec('cp assets/lambda/tailscale-proxy/index.js lib/lamb
 
 project.bundler.addBundle('./src/lambda/proxy-warmer/', {
   platform: 'node',
-  target: 'node22',
+  target: 'node24',
   sourcemap: true,
 });
 project.postCompileTask.exec('cp assets/lambda/proxy-warmer/index.js lib/lambda/proxy-warmer/index.js');

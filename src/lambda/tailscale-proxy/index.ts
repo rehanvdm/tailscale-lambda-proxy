@@ -28,6 +28,7 @@ export async function handler(event: APIGatewayProxyEventV2 | WarmerPayload): Pr
 
   if ('warmer' in event) {
     logDebug(`Warmer invocation detected (index: ${event.warmerIndex}, timestamp: ${event.warmerTimestamp})`);
+    await new Promise((resolve) => setTimeout(resolve, 50));
     return { success: true };
   }
 
