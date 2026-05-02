@@ -212,6 +212,11 @@ const tailscaleLambdaProxyProps: TailscaleLambdaProxyProps = { ... }
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsSecretApiKey">tsSecretApiKey</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The name of the AWS Secrets Manager secret that contains the pure text Tailscale API Key. |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.debug">debug</a></code> | <code>boolean</code> | *No description.* |
 | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.options">options</a></code> | <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a></code> | *No description.* |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsAdvertiseTags">tsAdvertiseTags</a></code> | <code>string</code> | Passed as `--advertise-tags` to `tailscale up`. |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNode">tsExitNode</a></code> | <code>string</code> | Passed as `--exit-node` to `tailscale up`. |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNodePingRetries">tsExitNodePingRetries</a></code> | <code>number</code> | Number of ping attempts before giving up on the exit node reachability check. |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNodePingTimeout">tsExitNodePingTimeout</a></code> | <code>number</code> | Per-attempt timeout in milliseconds for the exit node reachability ping. |
+| <code><a href="#tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNodeRequired">tsExitNodeRequired</a></code> | <code>boolean</code> | When `true`, the extension aborts (fail-closed) if the exit node is not reachable within the timeout. |
 
 ---
 
@@ -256,6 +261,77 @@ public readonly options: TailscaleLambdaProxyPropsOptions;
 ```
 
 - *Type:* <a href="#tailscale-lambda-proxy.TailscaleLambdaProxyPropsOptions">TailscaleLambdaProxyPropsOptions</a>
+
+---
+
+##### `tsAdvertiseTags`<sup>Optional</sup> <a name="tsAdvertiseTags" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsAdvertiseTags"></a>
+
+```typescript
+public readonly tsAdvertiseTags: string;
+```
+
+- *Type:* string
+
+Passed as `--advertise-tags` to `tailscale up`.
+
+Required when using OAuth client keys (no expiry).
+Example: `tag:lambda`
+
+---
+
+##### `tsExitNode`<sup>Optional</sup> <a name="tsExitNode" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNode"></a>
+
+```typescript
+public readonly tsExitNode: string;
+```
+
+- *Type:* string
+
+Passed as `--exit-node` to `tailscale up`.
+
+Routes all internet-bound Lambda traffic through the
+specified exit node (Tailscale IP or hostname). Example: `100.x.y.z`
+
+---
+
+##### `tsExitNodePingRetries`<sup>Optional</sup> <a name="tsExitNodePingRetries" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNodePingRetries"></a>
+
+```typescript
+public readonly tsExitNodePingRetries: number;
+```
+
+- *Type:* number
+- *Default:* 10
+
+Number of ping attempts before giving up on the exit node reachability check.
+
+---
+
+##### `tsExitNodePingTimeout`<sup>Optional</sup> <a name="tsExitNodePingTimeout" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNodePingTimeout"></a>
+
+```typescript
+public readonly tsExitNodePingTimeout: number;
+```
+
+- *Type:* number
+- *Default:* 2000
+
+Per-attempt timeout in milliseconds for the exit node reachability ping.
+
+---
+
+##### `tsExitNodeRequired`<sup>Optional</sup> <a name="tsExitNodeRequired" id="tailscale-lambda-proxy.TailscaleLambdaProxyProps.property.tsExitNodeRequired"></a>
+
+```typescript
+public readonly tsExitNodeRequired: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+When `true`, the extension aborts (fail-closed) if the exit node is not reachable within the timeout.
+
+When `false` / unset, it logs a warning and continues (fail-open).
 
 ---
 

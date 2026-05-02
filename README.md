@@ -15,6 +15,8 @@
     - [Code Examples](#code-examples)
   - [Additional Information](#additional-information)
   - [AWS SigV4 Headers](#aws-sigv4-headers)
+  - [OAuth Client Keys (Recommended)](#oauth-client-keys-recommended)
+  - [Exit Nodes](#exit-nodes)
 
 A CDK construct that creates an AWS Lambda Function acting as a transparent proxy to your Tailscale network.
 
@@ -47,6 +49,9 @@ Use the Proxy Lambda (recommended) if:
 > [!TIP]  
 > Refer to the [tailscale-lambda-proxy-example](https://github.com/rehanvdm/tailscale-lambda-proxy-example) repository
 > for a complete example.
+> 
+> The [Tailscale Lambda Extension](https://github.com/rehanvdm/tailscale-lambda-extension) documents options in more 
+> 
 
 ### Installation
 
@@ -56,7 +61,7 @@ npm install tailscale-lambda-proxy
 ```
 
 The Proxy Lambda requires the following:
-- `tsSecretApiKey`: The AWS Secrets Manager secret containing the Tailscale API Key as plain text.
+- `tsSecretApiKey`: The AWS Secrets Manager secret containing the Tailscale API Key (auth key or OAuth client key).
 - `tsHostname`: The "Machine" name as shown in the Tailscale admin console, which identifies the Lambda function(s).
 
 ```typescript
@@ -90,6 +95,11 @@ export class MyStack extends cdk.Stack {
       //   functionName: name("tailscale-proxy-warmer"),
       //   concurrentInvocations: 2,
       // }
+      // tsAdvertiseTags: "tag:lambda",     // Required for OAuth client keys (non-expiring); sets --advertise-tags
+      // tsExitNode: "100.x.y.z",           // Route all internet-bound traffic through this Tailscale exit node
+      // tsExitNodeRequired: true,          // Abort if the exit node is unreachable (fail-closed); default: false
+      // tsExitNodePingTimeout: 2000,       // Per-ping timeout (ms) when checking exit node reachability; default: 2000
+      // tsExitNodePingRetries: 10,         // Number of ping attempts before giving up on the exit node; default: 10
     });
 
     const caller = new NodejsFunction(this, "tailscale-caller", {
@@ -233,6 +243,31 @@ export const handler = async (event: any) => {
 
   return true;
 };
+```
+
+## Extension Options
+
+The TS Lambda Extension accepts various options that can be configured through environment variables. These include:
+
+| TS Option | Environment Variable | Description |
+|-----------|---------------------|-------------|
+| `tsAdvertiseTags` | `TS_ADVERTISE_TAGS` | Enables OAuth client keys when set, allowing for non-expiring keys and more secure authentication. |
+| `tsExitNode` | `TS_EXIT_NODE` | Routes internet-bound traffic through a specified Tailscale exit node. |
+| `tsExitNodeRequired` | `TS_EXIT_NODE_REQUIRED` | When set to `true`, the extension will fail to initialize if the specified exit node is not reachable, ensuring critical routing requirements are met. |
+| `tsExitNodePingTimeout` | `TS_EXIT_NODE_PING_TIMEOUT` | Configures the timeout (ms) for exit node reachability checks. |
+| `tsExitNodePingRetries` | `TS_EXIT_NODE_PING_RETRIES` | Configures the number of retry attempts for exit node reachability checks. |
+
+These can be set directly on the construct props:
+```ts 
+const tailscaleProxy = new TailscaleLambdaProxy(this, "tailscale-proxy", {
+  tsSecretApiKey: secretsmanager.Secret.fromSecretNameV2(this, "tailscale-api-key", "tailscale-api-key"),
+  tsHostname: "lambda-test",
+  tsAdvertiseTags: 'tag:aws',
+  tsExitNode: "100.1.2.3",
+  tsExitNodeRequired: true,
+  tsExitNodePingRetries: 10,
+  tsExitNodePingTimeout: 2000,
+});
 ```
 
 ## Additional Information

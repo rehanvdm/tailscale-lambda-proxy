@@ -5,6 +5,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'rehanvdm',
   authorAddress: 'rehan.vdm+github-tailscale-lambda-proxy@gmail.com',
   cdkVersion: '2.225.0',
+  constructsVersion: '10.5.1',
   defaultReleaseBranch: 'main',
   jsiiVersion: '5.9.36',
   name: 'tailscale-lambda-proxy',
